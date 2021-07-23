@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }} - site</title>
+    <title>
+        {% if title %}
+            Id is {{ title }}
+        {% else %}
+            Id is None
+        {% endif %}
+    </title>
 </head>
 <body>
-<h1>{{ title }}</h1>
+{% if title %}
+    <h1>Id is {{ title }}</h1>
+{% else %}
+    <h1>Id is None</h1>
+{% endif %}
 </body>
 </html>
