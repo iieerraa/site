@@ -40,6 +40,14 @@ button {
     margin: 10px 0 2px 0;
 }
 
+.flash.success {
+    color: green
+}
+.flash.error {
+    color: red
+}
+
+
 span.h1 {
     font-size: 25px;
 }

@@ -17,10 +17,9 @@ def sign_up():
         password = request.form.get('psw')
         repeat_pas = request.form.get('psw_repeat')
         if password == repeat_pas:
-            with open('users.txt', 'a') as output:
-                print(username, password, file=output)
-                output.close()
-                flash('Регистрация успешна', category='success')
+            with open('users.txt', 'a') as file_handler:
+                file_handler.write(f"{username};{password}\r\n")
+            flash('Регистрация успешна', category='success')
         else:
             flash('Пароли не совпадают', category='error')
 

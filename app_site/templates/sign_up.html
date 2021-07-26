@@ -7,24 +7,22 @@
 </head>
 <body>
 <form method="post">
-    <span class="h1"><b>Sign Up </b></span><span class="p">Create an account</span>
-<!--    <h1>Sign Up</h1>-->
-<!--    <p>Create an account</p>-->
+    <span class="h1" >
+        <b>Sign Up </b>
+        <span class="p">Create an account</span>
+    </span>
     {% for cat, msg in get_flashed_messages(True) %}
-    <div class="flash" {{cat}}>{{ msg }}</div>
+        <div class="flash {{cat}}">{{ msg }}</div>
     {% endfor %}
     <hr>
-    <label>Email</label>
-<!--        <label for="email">Email</label>-->
-    <input type="email" placeholder="Enter Email" name="email" required>
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="Enter Email" name="email" required>
 
-    <label>Password</label>
-<!--        <label for="psw">Password</label>-->
-    <input type="password" placeholder="Enter Password" name="psw" minlength="4" required>
+    <label for="psw">Password</label>
+    <input id="psw" type="password" placeholder="Enter Password" name="psw" minlength="4" required>
 
-    <label>Repeat Password</label>
-<!--        <label for="psw_repeat">Repeat Password</label>-->
-    <input type="password" placeholder="Repeat Password" name="psw_repeat" minlength="4" required>
+    <label for="psw_repeat">Repeat Password</label>
+    <input id="psw_repeat" type="password" placeholder="Repeat Password" name="psw_repeat" minlength="4" required>
     <br>
     <br>
     <button type="submit">Sign Up</button>
