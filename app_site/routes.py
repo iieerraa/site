@@ -26,6 +26,19 @@ def sign_up():
     return render_template('sign_up.html', title='Sign Up')
 
 
+@app.route('/sing_in.html', methods=['post', 'get'])
+def sign_in():
+    if request.method == 'POST':
+        username = request.form.get('email')
+        password = request.form.get('psw')
+        if username == 'login' and password == 1234:
+            pass
+        else:
+            flash('Пользователь не найден', category='error')
+
+    return render_template('sign_in.html', title='Sign In')
+
+
 @app.route('/id/<int:post_id>')
 def new(post_id=None):
-    return render_template('new.html', title=post_id)
+    return render_template('sign_in.html', title=post_id)
