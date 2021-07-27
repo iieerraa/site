@@ -34,8 +34,8 @@ def sign_in():
         password = request.form.get('psw')
         file_handler = open('users.txt')
         for line in file_handler:
-            user = line.strip().split(';')
-            if user[0] == username and user[1] == password:
+            file_username, file_password = line.strip().split(';', 1)
+            if file_username == username and file_password == password:
                 flag = True
                 break
         if flag:
