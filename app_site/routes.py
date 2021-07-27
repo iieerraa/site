@@ -26,19 +26,30 @@ def sign_up():
     return render_template('sign_up.html', title='Sign Up')
 
 
-@app.route('/sing_in.html', methods=['post', 'get'])
+@app.route('/sign_in', methods=['post', 'get'])
 def sign_in():
     if request.method == 'POST':
+        flag = False
         username = request.form.get('email')
         password = request.form.get('psw')
-        if username == 'login' and password == 1234:
-            pass
+        file_handler = open('users.txt')
+        for line in file_handler:
+            user = line.strip().split(';')
+            if user[0] == username and user[1] == password:
+                flag = True
+                break
+        if flag:
+            flash('Авторизация успешна', category='success')
         else:
             flash('Пользователь не найден', category='error')
-
     return render_template('sign_in.html', title='Sign In')
 
 
-@app.route('/id/<int:post_id>')
-def new(post_id=None):
-    return render_template('sign_in.html', title=post_id)
+# @app.route('/id/<int:post_id>')
+# def new(post_id=None):
+#     return render_template('sign_in.html', title=post_id)
+
+
+# @app.route('/test')
+# def test():
+#     return render_template('test.html', title='test')
