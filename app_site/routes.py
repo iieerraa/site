@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import render_template, request, flash
+from flask import render_template, request, flash, redirect, url_for, make_response
 from app_site import app
 
 
@@ -26,7 +26,7 @@ def sign_up():
     return render_template('sign_up.html', title='Sign Up')
 
 
-@app.route('/sign_in', methods=['post', 'get'])
+@app.route('/sign_in/', methods=['post', 'get'])
 def sign_in():
     if request.method == 'POST':
         flag = False
@@ -39,15 +39,30 @@ def sign_in():
                 flag = True
                 break
         if flag:
-            flash('Авторизация успешна', category='success')
+            cookie = make_response(render_template('user.html', user=username))
+            cookie.set_cookie('user_email', username, max_age=10)
+            return cookie
+            # return redirect(url_for('user', user_email=username), 301)
+            # flash('Авторизация успешна', category='success')
         else:
             flash('Пользователь не найден', category='error')
     return render_template('sign_in.html', title='Sign In')
 
 
-# @app.route('/id/<int:post_id>')
-# def new(post_id=None):
-#     return render_template('sign_in.html', title=post_id)
+@app.route('/user/')
+def user():
+    user_email = request.cookies.get('user_email')
+    return render_template('user.html', user=user_email)
+
+
+# @app.route('/user/<user_email>')
+# def user(user_email=None):
+#     return render_template('user.html', title=user_email)
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return 'Страница не найдена', 404
 
 
 # @app.route('/test')

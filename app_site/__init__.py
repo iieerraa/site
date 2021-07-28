@@ -1,9 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from config import Config
 
 app = Flask(__name__)
 app.debug = True
-app.config['SECRET_KEY'] = 'long_SECRET_KEY'
+app.config.from_object(Config)
+# app.config['SECRET_KEY'] = 'long_SECRET_KEY'
 
 
 from app_site import routes
