@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
-    <title>{{ title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super() }}
 <form method="post">
     <span class="h1" >
         <b>Sign In </b>
@@ -25,5 +21,4 @@
     <br>
     <button type="submit">Sign Up</button>
 </form>
-</body>
-</html>
+{% endblock %}

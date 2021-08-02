@@ -1,3 +1,11 @@
+html, body {
+    font-family: 'Arial';
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%
+}
+
 form {
     border: 1px solid #c0ab8e;
     margin: 20px;
@@ -47,10 +55,34 @@ button {
     color: red
 }
 
-
 span.h1 {
     font-size: 25px;
 }
 span.p {
     font-size: 12px;
+}
+
+ul.mainmenu {
+    list-style: none;
+    background: #c0ab8e;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    color: #2e4a62;
+    font-size: 20px;
+    overflow: hidden;
+}
+ul.mainmenu li {
+    float: left;
+    margin: 18px 40px 0 50px;
+}
+ul.mainmenu li a {
+    color: #2e4a62;
+    text-decoration: none;
+}
+ul.mainmenu li.last {
+    float: right
+}
+ul.mainmenu li a:hover {
+    color: #2e4a62;
 }

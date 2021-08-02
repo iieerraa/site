@@ -2,6 +2,7 @@
 
 from flask import render_template, request, flash, redirect, url_for, session, g
 from app_site import app
+from app_site.FDataBase import FDataBase
 from app_site.create_db import connect_db
 
 
@@ -12,7 +13,8 @@ def index():
     Главная страница
     """
     db = get_db()
-    return render_template('index.html', title='Index', menu=[])
+    dbase = FDataBase(db)
+    return render_template('index.html', title='Index', menu=dbase.get_menu())
 
 
 @app.route('/sign_up/', methods=['post', 'get'])
@@ -20,18 +22,21 @@ def sign_up():
     """
     Регистрация пользователя
     """
+    db = get_db()
+    dbase = FDataBase(db)
     if request.method == 'POST':  # получение и обработка данных о пользователе
         username = request.form.get('email')
         password = request.form.get('psw')
         repeat_pas = request.form.get('psw_repeat')
         if password == repeat_pas:
-            with open('users.txt', 'a') as file_handler:  # открытие файла с данными пользователей для дозаписи
-                file_handler.write(f"{username};{password}\r\n")  # запись данных о новом пользователе в файл
+            res = dbase.add_user(username, password)
+            # with open('users.txt', 'a') as file_handler:  # открытие файла с данными пользователей для дозаписи
+            #     file_handler.write(f"{username};{password}\r\n")  # запись данных о новом пользователе в файл
             session['user'] = username  # запись емайла пользователя в сессию
             return redirect(url_for('user'))  # перенаправление зарегистрированного пользователя на страницу пользователей
         else:
             flash('Пароли не совпадают', category='error')
-    return render_template('sign_up.html', title='Sign Up')
+    return render_template('sign_up.html', title='Sign Up', menu=dbase.get_menu())
 
 
 @app.route('/sign_in/', methods=['post', 'get'])
@@ -39,6 +44,8 @@ def sign_in():
     """
     Аутентификация пользователя
     """
+    db = get_db()
+    dbase = FDataBase(db)
     if request.method == 'POST':  # получение и обработка данных о логине и пароле
         username = request.form.get('email')
         password = request.form.get('psw')
@@ -49,7 +56,7 @@ def sign_in():
                 session['user'] = username  # запись емайла пользователя в сессию
                 return redirect(url_for('user'))  # перенаправление вошедшего пользователя на страницу пользователей
         flash('Пользователь не найден', category='error')
-    return render_template('sign_in.html', title='Sign In')
+    return render_template('sign_in.html', title='Sign In', menu=dbase.get_menu())
 
 
 @app.route('/user/')
@@ -57,9 +64,11 @@ def user():
     """
     Страница пользователя
     """
+    db = get_db()
+    dbase = FDataBase(db)
     if "user" in session:
         username = session["user"]
-        return render_template('user.html', user=username)
+        return render_template('user.html', user=username, menu=dbase.get_menu())
     else:
         return redirect(url_for('sign_in'))  # если пользователь не аутеентифицирован, перенаправление на страницу входа
 
