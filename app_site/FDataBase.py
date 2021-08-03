@@ -22,9 +22,25 @@ class FDataBase:
     def add_user(self, email, psw):
         try:
             tm = math.floor(time.time())
-            self.__cur.execute('INSERT INTO user VALUES(NULL, ?, ?, ?)', (email, psw, tm))
+            self.__cur.execute('INSERT INTO user VALUES(NULL, ?, ?, ?);', (email, psw, tm))
             self.__db.commit()
         except sqlite3.Error as e:
             print('Ошибка добавления пользователя в БД' + str(e))
             return False
         return True
+
+    def get_user(self, username, password):
+        try:
+            self.__cur.execute('SELECT time FROM user WHERE email=:e_mail AND psw=:passw;', {'e_mail': username, 'passw': password})
+            rows = self.__cur.fetchone()
+            res = None
+            if rows:
+                res = []
+                for row in rows:
+                    res.append(row)
+            if res:
+                return res
+        except sqlite3.Error as e:
+            print("Пользователь не найден" + str(e))
+
+        return None

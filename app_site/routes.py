@@ -30,8 +30,6 @@ def sign_up():
         repeat_pas = request.form.get('psw_repeat')
         if password == repeat_pas:
             res = dbase.add_user(username, password)
-            # with open('users.txt', 'a') as file_handler:  # открытие файла с данными пользователей для дозаписи
-            #     file_handler.write(f"{username};{password}\r\n")  # запись данных о новом пользователе в файл
             session['user'] = username  # запись емайла пользователя в сессию
             return redirect(url_for('user'))  # перенаправление зарегистрированного пользователя на страницу пользователей
         else:
@@ -49,13 +47,19 @@ def sign_in():
     if request.method == 'POST':  # получение и обработка данных о логине и пароле
         username = request.form.get('email')
         password = request.form.get('psw')
-        file_handler = open('users.txt')  # открытие файла с данными пользователей для чтения
-        for line in file_handler:  # построчное чтение файла с данными пользователей
-            file_username, file_password = line.strip().split(';', 1)
-            if file_username == username and file_password == password:
-                session['user'] = username  # запись емайла пользователя в сессию
-                return redirect(url_for('user'))  # перенаправление вошедшего пользователя на страницу пользователей
-        flash('Пользователь не найден', category='error')
+        user_id = dbase.get_user(username, password)
+        if not user_id:
+            flash('Пользователь не найден', category='error')
+        else:
+            session['user'] = user_id
+            return redirect(url_for('user'))
+        # file_handler = open('users.txt')  # открытие файла с данными пользователей для чтения
+        # for line in file_handler:  # построчное чтение файла с данными пользователей
+        #     file_username, file_password = line.strip().split(';', 1)
+        #     if file_username == username and file_password == password:
+        #         session['user'] = username  # запись емайла пользователя в сессию
+        #         return redirect(url_for('user'))  # перенаправление вошедшего пользователя на страницу пользователей
+        # flash('Пользователь не найден', category='error')
     return render_template('sign_in.html', title='Sign In', menu=dbase.get_menu())
 
 
