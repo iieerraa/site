@@ -27,7 +27,7 @@ class FDataBase:
         except sqlite3.Error as e:
             print('Ошибка добавления пользователя в БД' + str(e))
             return False
-        return True
+        return tm
 
     def get_user(self, username, password):
         try:
@@ -35,12 +35,10 @@ class FDataBase:
             rows = self.__cur.fetchone()
             res = None
             if rows:
-                res = []
                 for row in rows:
-                    res.append(row)
+                    res = row
             if res:
                 return res
         except sqlite3.Error as e:
             print("Пользователь не найден" + str(e))
-
         return None

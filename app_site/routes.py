@@ -30,7 +30,7 @@ def sign_up():
         repeat_pas = request.form.get('psw_repeat')
         if password == repeat_pas:
             res = dbase.add_user(username, password)
-            session['user'] = username  # запись емайла пользователя в сессию
+            session['user'] = res  # запись емайла пользователя в сессию
             return redirect(url_for('user'))  # перенаправление зарегистрированного пользователя на страницу пользователей
         else:
             flash('Пароли не совпадают', category='error')
