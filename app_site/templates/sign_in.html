@@ -5,7 +5,7 @@
 <form method="post">
     <span class="h1" >
         <b>Sign In </b>
-        <span class="p"> </span>
+        <span class="p">Enter in to account</span>
     </span>
     {% for cat, msg in get_flashed_messages(True) %}
         <div class="flash {{cat}}">{{ msg }}</div>
@@ -19,6 +19,7 @@
 
     <br>
     <br>
-    <button type="submit">Sign Up</button>
+    <button type="submit">Sign In</button>
+    <p><a href="{{url_for('sign_up')}}">Sing Up</a></p>
 </form>
 {% endblock %}

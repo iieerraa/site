@@ -1,5 +1,4 @@
 123@3FDF.DW;aaaa
 login@com.com;1234
 test@com;qwer
-dfsf@jhkjh.com;1qaz
 1@1;1234
