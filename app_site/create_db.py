@@ -17,4 +17,4 @@ def create_db():
     db.close()
 
 
-# create_db()
+create_db()

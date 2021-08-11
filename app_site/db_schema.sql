@@ -12,3 +12,10 @@ email text NOT NULL,
 psw text NOT NULL,
 time integer NOT NULL
 );
+
+
+CREATE TABLE IF NOT EXISTS content (
+id integer PRIMARY KEY AUTOINCREMENT,
+user INTEGER NULL REFERENCES user(time),
+content text NOT NULL
+);

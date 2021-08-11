@@ -3,4 +3,25 @@
 {% block content %}
 {{ super() }}
 <h1>HI {{user}}</h1>
+<form method="post">
+    <span class="h1" >
+        <b>Add content </b>
+        <span class="p">Your post</span>
+    </span>
+    {% for cat, msg in get_flashed_messages(True) %}
+        <div class="flash {{cat}}">{{ msg }}</div>
+    {% endfor %}
+    <hr>
+    <label for="content">Post</label>
+    <textarea id="content" name="comment" cols="40" rows="3" placeholder="Enter Post" required></textarea>
+
+    <label for="photo">Photo</label>
+    <input id="photo" type="file" name="content" accept="image/jpeg,image/png,image/gif" required multiple>
+
+    <br>
+    <br>
+    <button type="submit">Add</button>
+</form>
+
 {% endblock %}
+
