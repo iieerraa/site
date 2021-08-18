@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
 
 from flask import render_template, request, flash, redirect, url_for, session, g
+from werkzeug.utils import secure_filename
+
 from app_site import app
 from app_site.FDataBase import FDataBase
 from app_site.create_db import connect_db
@@ -59,7 +62,7 @@ def sign_up():
             hash_psw = generate_password_hash(request.form.get('psw'))  # хеширование пароля
             res = dbase.add_user(request.form.get('name'), request.form.get('email'), hash_psw)  # передача данных пользователя для записи в БД
             if res:
-                flash('Ругистрация прошла успешно', category='success')
+                flash('Регистрация прошла успешно', category='success')
                 return redirect(url_for('sign_in'))  # перенаправление зарегистрированного пользователя на страницу пользователей
             else:
                 flash('Пользователь с данным email уже зарегистрирован', category='error')
@@ -87,14 +90,49 @@ def sign_in():
     return render_template('sign_in.html', title='Sign In', menu=dbase.get_menu())
 
 
-@app.route('/user/')
+# Связать проверку расширения принимаемого файла с конфигурацией
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ['jpg', 'jpeg', 'gif', 'png']  # ALLOWED_EXTENSIONS
+
+
+@app.route('/user/', methods=['post', 'get'])
 def user():
     """
     Страница пользователя
     """
     if "user" in session:
-        username = session["user"]
-        print(session)
+        username = session['user']
+        user_id = session['user_id']
+        if request.method == 'POST':
+            photo = request.files['photo']
+            if photo and allowed_file(photo.filename):
+                filename = secure_filename(photo.filename)
+                # НЕРАБОТАЕТ ЗАРАЗА ТАКАЯ ЕДРИЧЕСКАЯ ПОПЕРЁК ХРЕБТА ЕЁ БЫ ДОЛБАНУТЬ!!!!
+                # ОСТАЛОСЬ ТОЛЬКО ЗАДНИЦУ К ЭКРАНУ ПРИСЛОНИТЬ!!!!
+                # VVVVVVVVVVVVVVVVVVVVVVVVVV
+                photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  # Я НЕ ХОЧУ РОБКОТОТЬ!!!!
+                # ^^^^^^^^^^^^^^^^^^^^^^^^^
+                # ПАКОСТЬ!!!!!!!!!!!!!
+                # try:
+                #     photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                #     dbase.add_post(user_id, request.form.get('post'), filename)
+                #     flash('Ваша запись успешно добавлена', category='success')
+                # except:
+                #     print(filename)
+                #     print(photo)
+                #     flash('Произошла ошибка добавления записи', category='error')
+
+        # if request.method == 'POST':
+        #     # post = request.form.get('post')
+        #     # photo = request.files['photo']
+        #     res = dbase.add_post(user_id, request.form.get('post'), request.form.get('photo'))  # передача данных пользователя для записи в БД
+        #
+        #     if res:
+        #         flash('Ваша запись успешно добавлена', category='success')
+        #     else:
+        #         flash('Произошла ошибка добавления записи', category='error')
+
         return render_template('user.html', user=username, menu=dbase.get_menu())
     else:
         return redirect(url_for('sign_in'))  # если пользователь не аутентифицирован, перенаправление на страницу входа

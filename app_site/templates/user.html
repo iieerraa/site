@@ -3,7 +3,7 @@
 {% block content %}
 {{ super() }}
 <h1>HI {{user}}</h1>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <span class="h1" >
         <b>Add content </b>
         <span class="p">Your post</span>
@@ -12,11 +12,11 @@
         <div class="flash {{cat}}">{{ msg }}</div>
     {% endfor %}
     <hr>
-    <label for="content">Post</label>
-    <textarea id="content" name="comment" cols="40" rows="3" placeholder="Enter Post" required></textarea>
+    <label for="post">Post</label>
+    <textarea id="post" cols="40" rows="3" placeholder="Enter Your Post" name="post" required></textarea>
 
     <label for="photo">Photo</label>
-    <input id="photo" type="file" name="content" accept="image/jpeg,image/png,image/gif" required multiple>
+    <input id="photo" type="file" accept="image/jpeg,image/png,image/gif" name="photo" required multiple>
 
     <br>
     <br>

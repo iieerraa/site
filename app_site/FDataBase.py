@@ -44,3 +44,19 @@ class FDataBase:
             print("Пользователь не найден" + str(e))
 
         return None
+
+    def add_post(self, user_id, post, photo=None):
+        try:
+            post_id = math.floor(time.time())
+            self.__cur.execute('INSERT INTO content VALUES(NULL, ?, ?, ?, ?);', (user_id, post_id, post, photo))
+            self.__db.commit()
+            res = True
+            return res
+        except:
+            print('Ошибка добавления поста')
+
+    def get_post(self, user_id):
+        try:
+            pass
+        except:
+            print('Ошибка Получения поста')

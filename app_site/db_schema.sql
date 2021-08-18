@@ -16,6 +16,8 @@ time integer NOT NULL
 
 CREATE TABLE IF NOT EXISTS content (
 id integer PRIMARY KEY AUTOINCREMENT,
-user INTEGER NULL REFERENCES user(time),
-content text NOT NULL
+user integer NOT NULL REFERENCES user(time),
+time integer NOT NULL,
+content text NOT NULL,
+photo text DEFAULT NULL
 );
