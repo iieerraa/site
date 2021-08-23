@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super() }}
+<center>
+    <h2>Hello {{user}}</h2>
+</center>
+
+    {% for post in content -%}
+        <form>
+            <img src='/static/img/uploads/{{ post[1] }}' alt="User Image">
+            <h1>{{ post[0] }}</h1>
+        </form>
+    {% endfor -%}
+
+{% endblock %}

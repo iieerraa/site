@@ -45,6 +45,14 @@ def index():
     """
     Главная страница
     """
+    if "user" in session:
+        user_id = session['user_id']
+        post = g.dbase.get_post(user_id)  # id, time, content, photo, name_photo
+        content = []
+        for p in post:
+            img = [p[2], p[-1]]
+            content.append(img)
+        return render_template('user_index.html', user=session['user'], content=content, menu=g.dbase.get_menu())
     return render_template('index.html', title='Index', menu=g.dbase.get_menu())
 
 
@@ -138,4 +146,7 @@ def allowed_file(filename):
 
 
 def rename_file(user_id, filename):
+    """
+    Переименовать файл user_time.file
+    """
     return str(user_id) + '_' + str(math.floor(time.time())) + '.' + (filename.rsplit('.', 1)[1])

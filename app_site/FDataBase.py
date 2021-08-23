@@ -57,6 +57,8 @@ class FDataBase:
 
     def get_post(self, user_id):
         try:
-            pass
+            self.__cur.execute('SELECT id, time, content, photo, name_photo FROM content WHERE user=:user_id;', {'user_id': user_id})
+            res = self.__cur.fetchall()
+            return res
         except:
             print('Ошибка Получения поста')
