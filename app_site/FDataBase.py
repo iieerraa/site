@@ -45,10 +45,10 @@ class FDataBase:
 
         return None
 
-    def add_post(self, user_id, post, photo=None):
+    def add_post(self, user_id, post, photo=None, new_name=None):
         try:
             post_id = math.floor(time.time())
-            self.__cur.execute('INSERT INTO content VALUES(NULL, ?, ?, ?, ?);', (user_id, post_id, post, photo))
+            self.__cur.execute('INSERT INTO content VALUES(NULL, ?, ?, ?, ?, ?);', (user_id, post_id, post, photo, new_name))
             self.__db.commit()
             res = True
             return res

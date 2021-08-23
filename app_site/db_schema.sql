@@ -19,5 +19,6 @@ id integer PRIMARY KEY AUTOINCREMENT,
 user integer NOT NULL REFERENCES user(time),
 time integer NOT NULL,
 content text NOT NULL,
-photo text DEFAULT NULL
+photo text DEFAULT NULL,
+name_photo text DEFAULT NULL
 );

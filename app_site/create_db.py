@@ -17,4 +17,14 @@ def create_db():
     db.close()
 
 
+def clear_content():
+    db = connect_db()
+    # clear = """DELETE FROM content;"""
+    db.execute("DELETE FROM content;")
+    db.commit()
+    db.close()
+
+
+
 # create_db()
+# clear_content()

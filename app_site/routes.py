@@ -1,4 +1,6 @@
+import math
 import os
+import time
 
 from flask import render_template, request, flash, redirect, url_for, session, g
 from werkzeug.utils import secure_filename
@@ -84,45 +86,29 @@ def sign_in():
     return render_template('sign_in.html', title='Sign In', menu=g.dbase.get_menu())
 
 
-# Связать проверку расширения принимаемого файла с конфигурацией
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
-
-
 @app.route('/user/', methods=['post', 'get'])
 def user():
     """
     Страница пользователя
     """
     if "user" in session:
-        username = session['user']
-        user_id = session['user_id']
+        # username = session['user']
+        # user_id = session['user_id']
         if request.method == 'POST':
             photo = request.files['photo']
             if photo and allowed_file(photo.filename):
-                filename = secure_filename(photo.filename)
-                photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                # try:
-                #     photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                #     g.dbase.add_post(user_id, request.form.get('post'), filename)
-                #     flash('Ваша запись успешно добавлена', category='success')
-                # except:
-                #     print(filename)
-                #     print(photo)
-                #     flash('Произошла ошибка добавления записи', category='error')
+                try:
+                    filename = secure_filename(photo.filename)  # Создание безопасного имени файла
+                    new_filename = rename_file(session['user_id'], filename)  # Новое имя файла
+                    photo.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))  # сохранение изображения
+                    g.dbase.add_post(session['user_id'], request.form.get('post'), filename, new_filename)  # запись данных о изображении в БД
+                    flash('Ваша запись успешно добавлена', category='success')
+                except:
+                    flash('Ошибка добавления записи', category='error')
+            else:
+                flash('Ошибка добавления изображения', category='error')
 
-        # if request.method == 'POST':
-        #     # post = request.form.get('post')
-        #     # photo = request.files['photo']
-        #     res = g.dbase.add_post(user_id, request.form.get('post'), request.form.get('photo'))  # передача данных пользователя для записи в БД
-        #
-        #     if res:
-        #         flash('Ваша запись успешно добавлена', category='success')
-        #     else:
-        #         flash('Произошла ошибка добавления записи', category='error')
-
-        return render_template('user.html', user=username, menu=g.dbase.get_menu())
+        return render_template('user.html', user=session['user'], menu=g.dbase.get_menu())
     else:
         return redirect(url_for('sign_in'))  # если пользователь не аутентифицирован, перенаправление на страницу входа
 
@@ -140,3 +126,16 @@ def sign_out():
 @app.errorhandler(404)
 def page_not_found(error):
     return 'Страница не найдена', 404
+
+
+# Сопутствующие функции
+def allowed_file(filename):
+    """
+    Проверка загружаемого пользователем файла на соответствие форматам указанным в конфигурации
+    """
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+
+
+def rename_file(user_id, filename):
+    return str(user_id) + '_' + str(math.floor(time.time())) + '.' + (filename.rsplit('.', 1)[1])
