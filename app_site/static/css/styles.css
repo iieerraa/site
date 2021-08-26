@@ -92,3 +92,41 @@ h1 {
     margin: 20px;
     color: #2e4a62;
 }
+
+div.center {
+    text-align: center;
+}
+
+div.post {
+    margin: 5px;
+    background: #f0ede5;
+    color: #2e4a62;
+    width: 500px;
+    height: 450px;
+    display: inline-block;
+}
+
+div.post img {
+    margin: 10px;
+    width: auto;
+    height: 200px;
+}
+
+div.post img:hover {
+    transition: 1s;
+    transform: scale(2);
+}
+
+textarea.text {
+    width: 90%;
+    height: 170px;
+    rows: auto;
+    resize: none;
+    text-align: center;
+    font-size: 15px;
+    text-align: center;
+    padding: 20px;
+    background: #f0ede5;
+    color: #2e4a62;
+    border: 0;
+}

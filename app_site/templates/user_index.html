@@ -5,12 +5,13 @@
 <center>
     <h2>Hello {{user}}</h2>
 </center>
-
+<div class="center">
     {% for post in content -%}
-        <form>
-            <img src='/static/img/uploads/{{ post[1] }}' alt="User Image">
-            <h1>{{ post[0] }}</h1>
-        </form>
+        <div class="post">
+            <img src='/static/img/uploads/{{ post[1] }}' alt="User Image" class="photo">
+            <div class="text">{{ post[0] }}</div>
+<!--            <textarea disabled class="text">{{ post[0] }}</textarea>-->
+        </div>
     {% endfor -%}
-
+</div>
 {% endblock %}
