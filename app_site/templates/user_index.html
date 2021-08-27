@@ -6,12 +6,11 @@
     <h2>Hello {{user}}</h2>
 </center>
 <div class="center">
-    {% for post in content -%}
+    {%- for post in content -%}
         <div class="post">
             <img src='/static/img/uploads/{{ post[1] }}' alt="User Image" class="photo">
-            <div class="text">{{ post[0] }}</div>
-<!--            <textarea disabled class="text">{{ post[0] }}</textarea>-->
+            <span class="text">{{ post[0] }}</span>
         </div>
-    {% endfor -%}
+    {%- endfor -%}
 </div>
-{% endblock %}
+{%- endblock %}
