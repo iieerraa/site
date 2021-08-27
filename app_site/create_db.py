@@ -5,7 +5,7 @@ from app_site import app
 
 def connect_db():
     conn = sqlite3.connect(app.config['DATABASE'])
-    conn.row_factory = sqlite3.Row  # данные из БД представленны в виде словаря
+    conn.row_factory = sqlite3.Row  # данные из БД представленны в виде списка
     return conn
 
 

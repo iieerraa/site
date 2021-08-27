@@ -50,7 +50,7 @@ def index():
         post = g.dbase.get_post(user_id)  # id, time, content, photo, name_photo
         content = []
         for p in post:
-            img = [p[2], p[-1]]
+            img = [p[2], p[-1], p[-2]]
             content.append(img)
         return render_template('user_index.html', user=session['user'], content=content, menu=g.dbase.get_menu())
     return render_template('index.html', title='Index', menu=g.dbase.get_menu())
@@ -150,3 +150,9 @@ def rename_file(user_id, filename):
     Переименовать файл user_time.file
     """
     return str(user_id) + '_' + str(math.floor(time.time())) + '.' + (filename.rsplit('.', 1)[1])
+
+
+@app.route("/site/<int:file_id>")
+@app.route("/site/<file_name>")
+def get_me_file(file_name=None, file_id=None):
+    return str((file_name, file_id))

@@ -94,23 +94,24 @@ h1 {
 }
 
 div.center {
-    text-align: center;
-    margin: 0 0 50px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 div.post {
-    margin: 5px;
+    margin: 10px;
     background: #f0ede5;
     color: #2e4a62;
     width: 500px;
-    height: 450px;
     display: inline-block;
 }
 
 div.post img {
+    margin: auto;
+    padding: 10px;
     display: block;
     margin: 10px auto 10px auto;
-    width: auto;
     height: 200px;
 }
 
@@ -119,13 +120,13 @@ div.post img:hover {
     transform: scale(2);
 }
 
-span.text {
-    overflow: scroll;
-    height: 180px;
-    margin: 10px;
-    text-align: center;
-    font-size: 15px;
+div.text {
+    overflow: auto;
+    height: 190px;
+    margin: 10px auto 20px auto;
     padding: 20px;
+    font-size: 15px;
+    text-indent: 20px;
     color: #2e4a62;
     display: block;
 }
